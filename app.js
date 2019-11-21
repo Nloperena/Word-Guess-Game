@@ -13,9 +13,10 @@
     var wins = 0;
     var loss = 0;
     var wrongLetter = [];
-    var guessesLeft = 9;
+    var guessesLeft = 10;
     var underScores = [];
     var userGuesses = [];
+    var winCounter = 0;
     var randomWord;
 
 // FUNCTION
@@ -33,21 +34,47 @@ function startGame() {
     //GAME RESET
     //==========
     wrongLetter = []
-    guessesLeft = 9;
+    guessesLeft = 10;
 
     //HTML
     //==========
     document.getElementById('guesses-left').textContent = guessesLeft;
 }
+
+function winLose(){
+    if(winCounter === randomWord.length) {
+        alert('You win')
+        startGame();
+    }
+    else if (guessesLeft === 0) {
+        alert('You lose')
+        startGame();
+    }
+}
+
     //Registering input on keyboard
     //==========
 document.onkeyup = function(event) 
 {
     userGuesses = event.key;
 
-    if(randomWord.indexOf(userGuesses) > -1)
-    {
-        console.log(randomWord.indexOf(userGuesses));
+    if(randomWord.indexOf(userGuesses) > -1){
+        for(var i = 0; i < randomWord.length; i++) 
+        {
+            if(randomWord[i] === userGuesses)
+            {
+                underScores[i] = userGuesses;
+                console.log(underScores)
+                winCounter++;
+                winLose();
+            }
+        }
+    }
+    else {
+        wrongLetter.push(userGuesses);
+        guessesLeft--;
+        console.log(wrongLetter);
+        winLose();
     }
 
 }
